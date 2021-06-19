@@ -1,0 +1,16 @@
+{{#users}}
+stream {
+  map $ssl_preread_server_name $user_https {
+     {{#domains}}
+     "{{.}}" unix:/home/{{username}}/.nginx.https.sock;
+     {{/domains}}
+  }
+
+  server {
+    listen 443;
+    listen [::]:443;
+    ssl_preread on;
+    proxy_pass $user_https;
+  }
+}
+{{/users}}
