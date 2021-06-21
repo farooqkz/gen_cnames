@@ -21,11 +21,11 @@ for username in os.listdir("/home/"):
     if os.path.isfile(cname):
         with open(cname) as fp:
             domains = map(
-                lambda domain: domain.strip() if validate(domain) else "",
+                lambda domain, _: domain.strip() if validate(domain) else "",
                 fp.readlines(),
+                range(MAX_DOMAINS)
             )
-            domains = [d[0] for d in zip(domains, range(MAX_DOMAINS))]
-            # ^ reading a maximum of MAX_DOMAINS
+            domains = tuple(domains)
             users.append(
                 dict(username=username, domains=domains)
             )
